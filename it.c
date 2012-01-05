@@ -119,11 +119,7 @@ int icmp_tunnel(int sock, int proxy, struct sockaddr_in *target, int tun_fd, int
       icmp->cksum = 0;
       icmp->cksum = in_cksum((unsigned short*)packet, len+result);
       result = sendto(sock, (char*)packet, len+result, 0, (struct sockaddr*)target, sizeof (struct sockaddr_in));
-      if (result==-1) {
-        perror ("sendto");
-        return -1;
-      }
-      didSend = 1;
+      didSend = result == -1;
     }
 
     /* data available on socket from icmp, need to pass along to tunnel device */
